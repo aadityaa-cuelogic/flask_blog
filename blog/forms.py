@@ -40,7 +40,7 @@ class SigninForm(Form):
     """
     username = StringField('username', validators=[DataRequired("Enter username")])
     password = PasswordField('Password', validators=[DataRequired("Enter password")])
-
+    login = SubmitField("Log In")
 
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)
@@ -50,7 +50,7 @@ class SigninForm(Form):
             return False
 
         user = User.query.filter_by(username = self.username.data.lower()).first()
-        if user and user.check_password(self.password.data):
+        if user is not None and user.verify_password(self.password.data):
             return True
         else:
             self.username.errors.append("Invalid username or password")
