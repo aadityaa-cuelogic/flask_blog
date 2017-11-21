@@ -36,6 +36,22 @@
     </div>
 
     <div class="col-sm-9">
+    
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="row flashes-row">
+            <div class="panel-heading">
+              <div class="panel-title text-center">
+                  <ul class=flashes>
+                    {% for message in messages %}
+                      <li>{{ message }}</li>
+                    {% endfor %}
+                  </ul>
+              </div>
+            </div> 
+          </div>
+        {% endif %}
+      {% endwith %}
       {% block content %}
       {% endblock %}
     </div>

@@ -11,8 +11,8 @@ def index():
 @app.route("/adduser", methods=['GET', 'POST'])
 def addUser():
 	form = SignupForm(request.form)
-	# if form.validate_on_submit():
-	if request.method == 'POST':
+	
+	if form.validate_on_submit():
 		user = User(name=form.name.data, username=form.username.data, 
 					email=form.email.data, password=form.password.data
 			   )
@@ -20,4 +20,6 @@ def addUser():
 		db.session.commit()
 		flash("User added successfully")
 		return redirect(url_for('index'))
-	return "Hello Get AddUser"
+	# print form.validate()
+	# print form.errors
+	return render_template('register.html', form=form)

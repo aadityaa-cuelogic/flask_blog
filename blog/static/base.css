@@ -15,6 +15,9 @@ footer {
   padding: 15px;
 }
 
+.flashes-row {
+  background-color: #cfd3e2;
+}
 
 /*Register Page Css*/
 .form-group{
