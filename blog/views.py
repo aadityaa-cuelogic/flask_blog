@@ -1,4 +1,4 @@
-from flask import Blueprint, request, url_for, render_template, redirect
+from flask import Blueprint, request, url_for, render_template, redirect, flash
 from . import app, db
 from .models import User, Post
 from .forms import SignupForm, SigninForm
@@ -6,7 +6,7 @@ from .forms import SignupForm, SigninForm
 
 @app.route('/')
 def index():
-	return "Hello World"
+	return render_template('home.html')
 
 @app.route("/adduser", methods=['GET', 'POST'])
 def addUser():
@@ -18,5 +18,6 @@ def addUser():
 			   )
 		db.session.add(user)
 		db.session.commit()
-		return "User added successfully"
+		flash("User added successfully")
+		return redirect(url_for('index'))
 	return "Hello Get AddUser"
