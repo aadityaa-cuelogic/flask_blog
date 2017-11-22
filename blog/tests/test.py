@@ -68,4 +68,21 @@ class BlogTest(unittest.TestCase):
 			response = self.app.post("/login", data=data, follow_redirects=True)
 		assert "Login Successful" in response.data
 
-	
+	def test_logoutUser_view(self):
+		data = {
+			'name' : 'aditya',
+			'email' : 'aditya@yopmail.com',
+			'password' : 'password',
+			'username' : 'aditya'
+		}
+		# import pdb;pdb.set_trace();
+		response = self.app.post("/adduser", data=data, follow_redirects=True)
+		if "User added successfully" in response.data:
+			login_data = {
+				'username':'aditya',
+				'password':'password'
+			}
+			response = self.app.post("/login", data=data, follow_redirects=True)
+			if "Login Successful" in response.data:
+				response = self.app.get("/logout", follow_redirects=True)
+		assert "Logged Out" in response.data

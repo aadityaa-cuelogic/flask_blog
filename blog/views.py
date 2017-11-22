@@ -37,3 +37,10 @@ def loginUser():
 			return redirect(url_for('index'))
 		flash("Login Failed")
 	return render_template('login.html', form=form)
+
+@app.route("/logout")
+@login_required
+def logoutUser():
+	logout_user()
+	flash("Logged Out")
+	return redirect(url_for('index'))
