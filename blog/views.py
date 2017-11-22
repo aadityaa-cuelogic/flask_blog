@@ -2,12 +2,13 @@ from flask import Blueprint, request, url_for, render_template, redirect, flash,
 from flask_login import login_user, logout_user, current_user, login_required
 from . import app, db
 from .models import User, Post
-from .forms import SignupForm, SigninForm
+from .forms import SignupForm, SigninForm, BlogForm
 
 
 @app.route('/')
 def index():
-	return render_template('home.html')
+	posts = Post.query.order_by(Post.pub_date.desc()).all()
+	return render_template('home.html', posts=posts)
 
 @app.route("/adduser", methods=['GET', 'POST'])
 def addUser():
@@ -43,4 +44,36 @@ def loginUser():
 def logoutUser():
 	logout_user()
 	flash("Logged Out")
+	return redirect(url_for('index'))
+
+
+@app.route("/addblog", methods=['GET', 'POST'])
+@login_required
+def addblog():
+	form = BlogForm(request.form)
+
+	if form.validate_on_submit():
+		post = Post(
+					title=form.title.data,
+					description=form.description.data,
+					pub_by=current_user.id
+				)
+		db.session.add(post)
+		db.session.commit()
+		flash('Post added successfully')
+		return redirect(url_for('index'))
+	return render_template('addblog.html', form=form)
+
+@app.route('/deleteblog/<int:blog_id>')
+@login_required
+def deleteblog(blog_id):
+	try:
+		post = Post.query.filter_by(id=blog_id).first()
+	except:
+		return redirect(url_for('index'))
+
+	if post is not None:
+		db.session.delete(post)
+		db.session.commit()
+		flash("Post deleted")
 	return redirect(url_for('index'))

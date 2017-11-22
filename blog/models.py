@@ -8,6 +8,7 @@ class User(db.Model, UserMixin):
 	username = db.Column(db.String(50), unique=True, nullable=False, index=True)
 	password = db.Column(db.String(80), nullable=False)
 	email = db.Column(db.String(80), unique=True, nullable=False)
+	post = db.relationship('Post', backref='user',cascade="all,delete",lazy='dynamic')
 
 	def verify_password(self, password):
 		if self.password == password:

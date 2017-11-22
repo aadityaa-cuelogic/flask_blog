@@ -19,4 +19,4 @@ class ProdConfig(Config):
 class TestConfig(Config):
     TESTING=True
     WTF_CSRF_ENABLED=False
-    SQLALCHEMY_DATABASE_URI="postgres://postgres:root@localhost:5432/blog_app"
+    SQLALCHEMY_DATABASE_URI="postgres://postgres:root@localhost:5432/blog_app_test"

@@ -19,14 +19,19 @@
 <div class="container-fluid">
   <div class="row content">
     <div class="col-sm-3 sidenav">
-      <h4>Aaditya's Blog</h4>
+      {% if current_user.is_authenticated %}
+        <h4>{{ current_user.username | title() }}'s Blogs</h4>
+      {% else %}
+        <h4>All Blogs</h4>
+      {% endif %}
       <ul class="nav nav-pills nav-stacked">
         <li class="active"><a href="/">Home</a></li>
-        <li><a href="/adduser">Register</a></li>
         {% if current_user.is_authenticated %}
+          <li><a href="/addblog">Add Post</a></li>
           <li><a href="/logout">Logout</a></li>
         {% else %}
           <li><a href="/login">Login</a></li>
+          <li><a href="/adduser">Register</a></li>
         {% endif %}
       </ul><br>
       <!-- <div class="input-group">
