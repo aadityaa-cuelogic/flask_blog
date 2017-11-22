@@ -7,7 +7,7 @@ from .forms import SignupForm, SigninForm, BlogForm
 
 @app.route('/')
 def index():
-	posts = Post.query.all()
+	posts = Post.query.order_by(Post.pub_date.desc()).all()
 	return render_template('home.html', posts=posts)
 
 @app.route("/adduser", methods=['GET', 'POST'])
@@ -63,3 +63,17 @@ def addblog():
 		flash('Post added successfully')
 		return redirect(url_for('index'))
 	return render_template('addblog.html', form=form)
+
+@app.route('/deleteblog/<int:blog_id>')
+@login_required
+def deleteblog(blog_id):
+	try:
+		post = Post.query.filter_by(id=blog_id).first()
+	except:
+		return redirect(url_for('index'))
+
+	if post is not None:
+		db.session.delete(post)
+		db.session.commit()
+		flash("Post deleted")
+	return redirect(url_for('index'))
