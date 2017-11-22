@@ -67,3 +67,5 @@ class BlogTest(unittest.TestCase):
 			}
 			response = self.app.post("/login", data=data, follow_redirects=True)
 		assert "Login Successful" in response.data
+
+	
