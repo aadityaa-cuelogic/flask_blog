@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="row main">
+		<div class="main-addblog">
+			<form class="form-horizontal" method="post" action="">
+				{{ form.hidden_tag() }}
+	            <div class="form-group">
+	                <label for="title" class="cols-sm-2 control-label">Post Title</label>
+	                <div class="cols-sm-10">
+	                    <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-comments fa" aria-hidden="true"></i></span>
+	                        {{ form.title(class_='form-control', placeholder="Enter your post title") }}
+	                    </div>
+	                </div>
+	            </div>
+
+	            <div class="form-group">
+	                <label for="description" class="cols-sm-2 control-label">Post Description</label>
+	                <div class="cols-sm-10">
+	                    <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+	                        {{ form.description(class="form-control", placeholder="Enter your post description") }}
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="form-group ">
+	                {{ form.post(class="btn btn-primary btn-lg btn-block") }}
+	            </div>
+		 	</form>
+		</div>
+	</div>
+{% endblock %}

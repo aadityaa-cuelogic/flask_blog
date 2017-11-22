@@ -3,7 +3,7 @@ Form module for required validation.
 """
 import flask_wtf
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField
 from .models import db, User
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 
@@ -26,12 +26,15 @@ class SignupForm(Form):
     def validate(self):
         if not Form.validate(self):
             return False
-        user = User.query.filter_by(username = self.username.data.lower()).first()
-        if user:
-            self.username.errors.append("This User is already taken")
-            return False
-        else:
-            return True
+        try:
+            user = User.query.filter_by(username = self.username.data.lower()).first()
+            if user is not None:
+                self.username.errors.append("This User is already taken")
+                return False
+            else:
+                return True
+        except Exception as e:
+            print e
 
 
 class SigninForm(Form):
@@ -48,10 +51,22 @@ class SigninForm(Form):
     def validate(self):
         if not Form.validate(self):
             return False
+        try:
+            user = User.query.filter_by(username = self.username.data.lower()).first()
+            if user is not None and user.verify_password(self.password.data):
+                return True
+            else:
+                self.username.errors.append("Invalid username or password")
+                return False
+        except Exception as e:
+            print e
 
-        user = User.query.filter_by(username = self.username.data.lower()).first()
-        if user is not None and user.verify_password(self.password.data):
-            return True
-        else:
-            self.username.errors.append("Invalid username or password")
-            return False
+
+class BlogForm(Form):
+    """
+    Add a blog
+    """
+    
+    title = StringField('Title',validators=[DataRequired()])
+    description =TextAreaField('Description',validators=[DataRequired()])
+    post = SubmitField('Post')
