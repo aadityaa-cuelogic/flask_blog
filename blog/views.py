@@ -77,3 +77,24 @@ def deleteblog(blog_id):
 		db.session.commit()
 		flash("Post deleted")
 	return redirect(url_for('index'))
+
+
+@app.route('/updateblog/<int:blog_id>', methods=['GET', 'POST'])
+@login_required
+def updateblog(blog_id):
+	form = BlogForm()
+	try:
+		post = Post.query.filter_by(id=blog_id).first()
+	except:
+		return redirect(url_for('index'))
+
+	if post is not None and form.validate_on_submit():
+		post.title = form.title.data
+		post.description = form.description.data
+		db.session.commit()
+		flash("Post Updated")
+	else:
+		form.title.data = post.title
+		form.description.data = post.description
+		return render_template('addblog.html', form=form)
+	return redirect(url_for('index'))
