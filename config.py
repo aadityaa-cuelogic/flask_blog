@@ -10,8 +10,8 @@ class Config():
 class DevConfig(Config):
     DEBUG=True
     # SQLALCHEMY_DATABASE_URI= os.environ['DATABASE_URL']
-    SQLALCHEMY_DATABASE_URI="postgres://postgres:root@localhost:5432/blog_app"
-    # export DATABASE_URL="postgres://postgres:root@localhost:5432/blog_app"
+    # SQLALCHEMY_DATABASE_URI="postgres://postgres:root@localhost:5432/blog_app"
+    SQLALCHEMY_DATABASE_URI="postgres://postgres:root@db_postgres:5432/postgres"
 
 class ProdConfig(Config):
     DEBUG=False

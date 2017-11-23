@@ -1,0 +1,29 @@
+version: "2"
+services:
+  db_postgres:
+    image: postgres
+
+    environment:
+      - POSTGRES_PASSWORD:root
+
+    ports:
+      - 5432:5432
+
+    expose:
+      - '5432'
+
+  flask-app:
+    build: .
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/flask_blog
+    depends_on:
+      - db_postgres
+    environment:
+      - DATABASE_USER=postgres
+      - DATABASE_PASS=root
+      - DATABASE_HOST=db_postgres
+      - DATABASE_PORT=5432
+    expose:
+      - '5000'

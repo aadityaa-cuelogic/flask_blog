@@ -3,7 +3,7 @@ FROM python:2.7-slim
 
 MAINTAINER Aaditya Agrawal
 
-RUN apt-get update && apt-get install postgresql postgresql-contrib
+#RUN sudo apt-get update && sudo apt-get install postgresql postgresql-contrib
 
 # Create Directory
 RUN mkdir /flask_blog
@@ -19,6 +19,14 @@ ADD . /flask_blog
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 RUN pip install -r requirements.txt
 
+ENTRYPOINT  sleep 2m &&\
+			rm -rf migrations &&\
+			python manage.py db init &&\
+			python manage.py db migrate &&\
+			python manage.py db upgrade &&\
+			python run.py --host 0.0.0.0
+
+
 # Make port 80 available to the world outside this container
 EXPOSE 5000
 
@@ -27,3 +35,4 @@ ENV NAME World
 
 # Run run.py when the container launches
 CMD ["python", "run.py"]
+
