@@ -1,7 +1,3 @@
-import os
-
-basedir = os.path.abspath(os.path.dirname(__file__))
-
 class Config():
     """Common config"""
     SECRET_KEY="MY_SECRET_KEY"

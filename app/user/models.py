@@ -1,5 +1,5 @@
 import datetime
-from . import app, db, login_manager
+from app import db, login_manager
 from flask_login import UserMixin
 
 class User(db.Model, UserMixin):
@@ -14,13 +14,6 @@ class User(db.Model, UserMixin):
 		if self.password == password:
 			return True
 		return False
-
-class Post(db.Model):
-	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	title = db.Column(db.Text, nullable=False)
-	description = db.Column(db.Text)
-	pub_by = db.Column(db.Integer, db.ForeignKey('user.id'))
-	pub_date = db.Column(db.DateTime, default=datetime.datetime.now)
 
 @login_manager.user_loader
 def load_user(ident):

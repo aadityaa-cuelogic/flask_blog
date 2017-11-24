@@ -8,4 +8,6 @@ app.config.from_object('config.DevConfig')
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 
-from . import views, models
+from . import urls
+
+from .blog import views, models
